@@ -28,8 +28,8 @@
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo mr-5" href="index.html"><img src="{{asset('admin/images/logo.svg')}}" class="mr-2" alt="logo" /></a>
-                <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{{asset('admin/images/logo-mini.svg')}}" alt="logo" /></a>
+                <a class="navbar-brand brand-logo mr-5" href="/dashboard"><img src="{{asset('admin/images/logo.svg')}}" class="mr-2" alt="logo" /></a>
+                <a class="navbar-brand brand-logo-mini" href="/dashboard"><img src="{{asset('admin/images/logo-mini.svg')}}" alt="logo" /></a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
                 <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -111,7 +111,7 @@
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="/dashboard">
                             <i class="ti-dashboard menu-icon"></i>
                             <span class="menu-title">Dashboard</span>
                         </a>
@@ -142,6 +142,7 @@
                             </ul>
                         </div>
                     </li>
+                    @role('Admin')
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#authencation" aria-expanded="false" aria-controls="authencation">
                             <i class="ti-key menu-icon"></i>
@@ -150,8 +151,8 @@
                         </a>
                         <div class="collapse" id="authencation">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="#">Tất cả quyền</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="#">Thêm quyền mới</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{route('roles.index')}}">Tất cả quyền</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{route('roles.create')}}">Thêm quyền mới</a></li>
                             </ul>
                         </div>
                     </li>
@@ -163,8 +164,8 @@
                         </a>
                         <div class="collapse" id="auth">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="#">Tất cả tài khoản</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="#">Thêm tài khoản mới</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{route('users.index')}}">Tất cả tài khoản</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{route('users.create')}}">Thêm tài khoản mới</a></li>
                             </ul>
                         </div>
                     </li>
@@ -180,6 +181,7 @@
                             <span class="menu-title">Cài đặt</span>
                         </a>
                     </li>
+                    @endrole
                     <li class="nav-item">
                         <a class="nav-link" href="#">
                             <i class="ti-location-arrow menu-icon"></i>
