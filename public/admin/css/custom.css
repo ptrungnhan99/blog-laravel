@@ -1,0 +1,14 @@
+.admin-dashboard .sidebar {
+    width: 300px;
+}
+.admin-dashboard .main-panel {
+    width: calc(100% - 300px);
+}
+.admin-dashboard.sidebar-icon-only .sidebar {
+    width: 70px;
+}
+@media screen and (min-width: 992px) {
+    .admin-dashboard.sidebar-icon-only .main-panel {
+        width: calc(100% - 70px);
+    }
+}
