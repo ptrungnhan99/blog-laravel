@@ -12,9 +12,7 @@
     <link rel="stylesheet" href="{{asset('admin/vendors/css/vendor.bundle.base.css')}}">
     <!-- endinject -->
     <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="{{asset('admin/vendors/datatables.net-bs4/dataTables.bootstrap4.css')}}">
     <link rel="stylesheet" href="{{asset('admin/vendors/ti-icons/css/themify-icons.css')}}">
-    <link rel="stylesheet" type="text/css" href="js/select.dataTables.min.css">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <link rel="stylesheet" href="{{asset('admin/css/vertical-layout-light/style.css')}}">
@@ -130,17 +128,10 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#collapseCategory" aria-expanded="false" aria-controls="collapseCategory">
+                        <a class="nav-link" href="{{route('categories.index')}}">
                             <i class="ti-menu menu-icon"></i>
                             <span class="menu-title">Danh mục bài viết</span>
-                            <i class="menu-arrow"></i>
                         </a>
-                        <div class="collapse" id="collapseCategory">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="#">Tất cả danh mục</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="#">Thêm danh mục mới</a></li>
-                            </ul>
-                        </div>
                     </li>
                     @role('Admin')
                     <li class="nav-item">
