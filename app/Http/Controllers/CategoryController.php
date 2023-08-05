@@ -67,7 +67,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::find($id);
+        $categories = Category::with('children')->whereNull('parent_id')->get();
+        return view('admin.categories.edit', compact('categories', 'category'));
     }
 
     /**
@@ -79,7 +81,16 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'slug' => 'required|string|max:255',
+            'parent_id' => 'nullable|exists:categories,id',
+        ]);
+        $input = $request->all();
+        $category = Category::find($id);
+        $category->update($input);
+        return redirect()->route('categories.index')
+            ->with('success', 'User updated successfully');
     }
 
     /**

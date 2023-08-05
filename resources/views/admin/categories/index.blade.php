@@ -81,7 +81,7 @@
                                             {{$category->name}}
                                         </td>
                                         <td>
-                                            tin-tuc
+                                            {{$category->slug}}
                                         </td>
                                         <td class="d-flex">
                                             <a class="btn btn-primary btn-rounded btn-icon m-1" href="{{ route('categories.edit',$category->id) }}" style="line-height: 42px"> <i class="ti-pencil-alt"></i></a>
