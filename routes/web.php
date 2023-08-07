@@ -33,18 +33,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('products', ProductController::class);
-});
-
-// Route::resource('categories', CategoryController::class);
-
-// Route::get('/', [CategoryController::class, 'index'])->name('categories.index');
-// Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
-
-Route::prefix('categories')->group(function () {
-    Route::get('', [CategoryController::class, 'index'])->name('categories.index');
-    // Route::get('/create', [CategoryController::class, 'create']);
-    Route::post('', [CategoryController::class, 'store'])->name('categories.store');
-    Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('categories.edit');
-    Route::put('/edit/{id}', [CategoryController::class, 'update'])->name('categories.update');
-    Route::delete('/delete/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+    Route::prefix('categories')->group(function () {
+        Route::get('', [CategoryController::class, 'index'])->name('categories.index');
+        // Route::get('/create', [CategoryController::class, 'create']);
+        Route::post('', [CategoryController::class, 'store'])->name('categories.store');
+        Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('categories.edit');
+        Route::put('/edit/{id}', [CategoryController::class, 'update'])->name('categories.update');
+        Route::delete('/delete/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+    });
 });

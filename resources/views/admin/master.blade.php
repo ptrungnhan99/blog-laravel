@@ -16,6 +16,7 @@
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <link rel="stylesheet" href="{{asset('admin/css/vertical-layout-light/style.css')}}">
+    <link rel="stylesheet" href="{{asset('admin/css/dropify.min.css')}}">
     <link rel="stylesheet" href="{{asset('admin/css/custom.css')}}">
     <!-- endinject -->
     <link rel="shortcut icon" href="{{asset('admin/images/favicon.png')}}" />
@@ -214,11 +215,13 @@
     <script src="{{asset('admin/js/template.js')}}"></script>
     <script src="{{asset('admin/js/settings.js')}}"></script>
     <script src="{{asset('admin/js/todolist.js')}}"></script>
+    <script src="{{asset('admin/js/dropify.min.js')}}"></script>
     <!-- endinject -->
     <!-- Custom js for this page-->
     <script src="{{asset('admin/js/dashboard.js')}}"></script>
     <script src="{{asset('admin/js/Chart.roundedBarCharts.js')}}"></script>
     <!-- End custom js for this page-->
+    @yield('script')
 </body>
 
 </html>

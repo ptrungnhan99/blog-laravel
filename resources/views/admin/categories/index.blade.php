@@ -22,7 +22,7 @@
                 <h4 class="card-title">Thêm danh mục</h4>
                 <div class="row">
                     <div class="col-lg-4">
-                        <form class="forms-sample" action="{{ route('categories.store') }}" method="POST">
+                        <form class="forms-sample" action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label for="name">Tên</label>
@@ -55,6 +55,11 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label>Thumbnail</label>
+                                <input type="file" name="thumbnail" class="dropify"
+                                    data-allowed-file-extensions="jpg png jpeg" data-max-file-size="2M">
+                            </div>
                             <button type="submit" class="btn btn-primary mr-2">Thêm</button>
                         </form>
                     </div>
@@ -70,6 +75,9 @@
                                             Dường dẫn
                                         </th>
                                         <th>
+                                            Hình ảnh thumbnail
+                                        </th>
+                                        <th>
                                             Chức năng
                                         </th>
                                     </tr>
@@ -82,6 +90,10 @@
                                         </td>
                                         <td>
                                             {{$category->slug}}
+                                        </td>
+                                        <td>
+                                            <img width="100px" class="img-thumbnail"
+                                            src="{{ asset('uploads/category/' . $category->thumbnail) }}" alt="">
                                         </td>
                                         <td class="d-flex">
                                             <a class="btn btn-primary btn-rounded btn-icon m-1" href="{{ route('categories.edit',$category->id) }}" style="line-height: 42px"> <i class="ti-pencil-alt"></i></a>
@@ -101,7 +113,11 @@
                                                 ---- {{$child->name}}
                                             </td>
                                             <td>
-                                                tin-tuc
+                                                {{$child->slug}}
+                                            </td>
+                                            <td>
+                                                <img width="100px" class="img-thumbnail"
+                                                src="{{ asset('uploads/category/' . $child->thumbnail) }}" alt="">
                                             </td>
                                             <td class="d-flex">
                                                 <a class="btn btn-primary btn-rounded btn-icon m-1" href="{{ route('categories.edit',$child->id) }}" style="line-height: 42px"> <i class="ti-pencil-alt"></i></a>
@@ -126,4 +142,22 @@
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $('.dropify').dropify({
+                messages: {
+                    'default': 'Drag and drop a file here or click',
+                    'replace': 'Drag and drop or click to replace',
+                    'remove': 'Remove',
+                    'error': 'Ooops, something wrong happended.'
+                },
+                error: {
+                    'fileSize': 'The file size is too big > 2M.',
+                    'imageFormat': 'The image format is not allowed only jpg png jpeg.'
+                }
+            });
+        });
+    </script>
 @endsection

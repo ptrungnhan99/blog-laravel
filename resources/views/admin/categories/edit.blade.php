@@ -22,7 +22,7 @@
                 <h4 class="card-title">Chỉnh sửa danh mục</h4>
                 <div class="row">
                     <div class="col-lg-6">
-                        <form class="forms-sample" action="{{ route('categories.update', $category->id) }}" method="POST">
+                        <form class="forms-sample" action="{{ route('categories.update', $category->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('put')
                             <div class="form-group">
@@ -56,6 +56,17 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label>Images</label>
+                                    @if ($category->thumbnail)
+                                    <input type="file" name="thumbnail" class="dropify"
+                                    data-allowed-file-extensions="jpg png jpeg" data-max-file-size="2M"
+                                    data-default-file="{{ asset('uploads/category/' . $category->thumbnail) }}">
+                                    @else
+                                    <input type="file" name="thumbnail" class="dropify"
+                                    data-allowed-file-extensions="jpg png jpeg" data-max-file-size="2M">
+                                    @endif
+                            </div>
                             <button type="submit" class="btn btn-primary mr-2">Lưu</button>
                         </form>
                     </div>
@@ -64,4 +75,22 @@
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $('.dropify').dropify({
+                messages: {
+                    'default': 'Drag and drop a file here or click',
+                    'replace': 'Drag and drop or click to replace',
+                    'remove': 'Remove',
+                    'error': 'Ooops, something wrong happended.'
+                },
+                error: {
+                    'fileSize': 'The file size is too big > 2M.',
+                    'imageFormat': 'The image format is not allowed only jpg png jpeg.'
+                }
+            });
+        });
+    </script>
 @endsection

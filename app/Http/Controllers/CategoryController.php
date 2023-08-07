@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class CategoryController extends Controller
 {
@@ -37,13 +38,25 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255',
             'parent_id' => 'nullable|exists:categories,id',
         ]);
 
-        Category::create($data);
+        $data = $request->only(['name', 'slug', 'parent_id']);
+        $nameThumbnail = '';
+
+        if ($request->hasFile('thumbnail')) {
+            $file = $request->file('thumbnail');
+            if ($file->isValid()) {
+                $nameThumbnail = $file->getClientOriginalName();
+                $file->move('uploads/category', $nameThumbnail);
+            }
+        }
+        $data['thumbnail'] = $nameThumbnail; // Add the thumbnail name to the data array.
+
+        Category::create($data); // Create and save the model with the data array.
 
         return redirect()->route('categories.index');
     }
@@ -81,14 +94,25 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
+        $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255',
             'parent_id' => 'nullable|exists:categories,id',
         ]);
-        $input = $request->all();
+        $data = $request->only(['name', 'slug', 'parent_id']);
         $category = Category::find($id);
-        $category->update($input);
+        if ($request->hasFile('thumbnail')) {
+            if (File::exists('uploads/category/' . $category->thumbnail)) {
+                File::delete('uploads/category/' . $category->thumbnail);
+            }
+            $file = $request->file('thumbnail');
+            if ($file->isValid()) {
+                $nameThumbnail = $file->getClientOriginalName();
+                $file->move('uploads/category', $nameThumbnail);
+            }
+        }
+        $data['thumbnail'] = $nameThumbnail;
+        $category->update($data);
         return redirect()->route('categories.index')
             ->with('success', 'User updated successfully');
     }
@@ -104,6 +128,9 @@ class CategoryController extends Controller
         $cat = Category::find($id);
         if (count($cat->children) > 0) {
             return redirect()->back()->with('alert', 'Please delete all sub category!!');
+        }
+        if (File::exists('uploads/category/' . $cat->thumbnail)) {
+            File::delete('uploads/category/' . $cat->thumbnail);
         }
         $cat->delete();
         return redirect()->back()->with('success', 'Delete Success!!');

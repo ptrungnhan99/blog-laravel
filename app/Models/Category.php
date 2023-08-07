@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'slug', 'parent_id'];
+    protected $fillable = ['name', 'slug', 'parent_id', 'thumbnail'];
 
     // Relationship to get the parent category
     public function parent()
@@ -20,5 +20,9 @@ class Category extends Model
     public function children()
     {
         return $this->hasMany(Category::class, 'parent_id');
+    }
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'category_id', 'id');
     }
 }
