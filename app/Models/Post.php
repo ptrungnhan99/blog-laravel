@@ -18,7 +18,8 @@ class Post extends Model
         'user_id',
         'category_id',
         'slug',
-        'approved'
+        'approved',
+        'highlight'
     ];
     public function author()
     {

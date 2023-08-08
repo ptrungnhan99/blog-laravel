@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,10 +20,10 @@ use App\Http\Controllers\CategoryController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-Route::get('dashboard', [CustomAuthController::class, 'dashboard'])->middleware('auth');
+Route::get('/', function () {
+    return view('client.master');
+});
+Route::get('dashboard', [CustomAuthController::class, 'dashboard'])->middleware('auth')->name('dashboard');
 Route::get('login', [CustomAuthController::class, 'index'])->name('login');
 Route::post('custom-login', [CustomAuthController::class, 'customLogin'])->name('login.custom');
 Route::get('registration', [CustomAuthController::class, 'registration'])->name('register-user');
@@ -41,4 +42,14 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('/edit/{id}', [CategoryController::class, 'update'])->name('categories.update');
         Route::delete('/delete/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     });
+});
+Route::prefix('posts')->group(function () {
+    Route::get('', [PostController::class, 'index'])->name('posts.index');
+    Route::get('/create', [PostController::class, 'create'])->name('posts.create');
+    Route::post('/create', [PostController::class, 'store'])->name('posts.store');
+    Route::get('/edit/{id}', [PostController::class, 'edit'])->name('posts.edit');
+    Route::put('/edit/{id}', [PostController::class, 'update'])->name('posts.update');
+    Route::delete('/delete/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
+    Route::post('/poststitle', [PostController::class, 'to_slug'])->name('posts.to_slug');
+    Route::post('/upload-images', [PostController::class, 'uploadImages'])->name('posts.uploadImages');
 });

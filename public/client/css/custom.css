@@ -1,0 +1,26 @@
+.masonry-blog .first-slot .masonry-box img,
+.masonry-blog .second-slot .masonry-box img,
+.masonry-blog .last-slot .masonry-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.masonry-blog .masonry-box {
+    height: 100%;
+}
+
+.masonry-blog .first-slot {
+    float: left;
+    width: 50%;
+    height: 500px;
+}
+
+.masonry-blog .last-slot,
+.masonry-blog .second-slot {
+    float: left;
+    width: 25%;
+    height: 500px;
+}
+.form-wrapper.form-custom .form-control {
+    margin-bottom: 0px !important;
+}

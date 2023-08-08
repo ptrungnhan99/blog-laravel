@@ -9,6 +9,7 @@
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{asset('admin/vendors/feather/feather.css')}}">
     <link rel="stylesheet" href="{{asset('admin/vendors/ti-icons/css/themify-icons.css')}}">
+    <link href="{{asset('admin/vendors/summernote/summernote.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('admin/vendors/css/vendor.bundle.base.css')}}">
     <!-- endinject -->
     <!-- Plugin css for this page -->
@@ -18,6 +19,7 @@
     <link rel="stylesheet" href="{{asset('admin/css/vertical-layout-light/style.css')}}">
     <link rel="stylesheet" href="{{asset('admin/css/dropify.min.css')}}">
     <link rel="stylesheet" href="{{asset('admin/css/custom.css')}}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- endinject -->
     <link rel="shortcut icon" href="{{asset('admin/images/favicon.png')}}" />
 </head>
@@ -109,13 +111,13 @@
             <!-- partial:partials/_sidebar.html -->
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
-                    <li class="nav-item">
+                    <li class="nav-item {{ Route::is('dashboard') ? 'active' : '' }}">
                         <a class="nav-link" href="/dashboard">
                             <i class="ti-dashboard menu-icon"></i>
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item {{ Route::is('posts.*') ? 'active' : '' }}">
                         <a class="nav-link" data-toggle="collapse" href="#collapseArticle" aria-expanded="false" aria-controls="collapseArticle">
                             <i class="ti-pencil-alt menu-icon"></i>
                             <span class="menu-title">Bài viết</span>
@@ -123,19 +125,19 @@
                         </a>
                         <div class="collapse" id="collapseArticle">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="list.html">Tất cả bài viết</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="create.html">Thêm bài viết mới</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{route('posts.index')}}">Tất cả bài viết</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{route('posts.create')}}">Thêm bài viết mới</a></li>
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item {{ Route::is('categories.*') ? 'active' : '' }}">
                         <a class="nav-link" href="{{route('categories.index')}}">
                             <i class="ti-menu menu-icon"></i>
                             <span class="menu-title">Danh mục bài viết</span>
                         </a>
                     </li>
                     @role('Admin')
-                    <li class="nav-item">
+                    <li class="nav-item {{ Route::is('roles.*') ? 'active' : '' }}">
                         <a class="nav-link" data-toggle="collapse" href="#authencation" aria-expanded="false" aria-controls="authencation">
                             <i class="ti-key menu-icon"></i>
                             <span class="menu-title">Phân quyền</span>
@@ -148,7 +150,7 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item {{ Route::is('users.*') ? 'active' : '' }}">
                         <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
                             <i class="ti-user menu-icon"></i>
                             <span class="menu-title">Tài khoản</span>
@@ -201,7 +203,6 @@
         <!-- page-body-wrapper ends -->
     </div>
     <!-- container-scroller -->
-
     <!-- plugins:js -->
     <script src="{{asset('admin/vendors/js/vendor.bundle.base.js')}}"></script>
     <!-- endinject -->
@@ -220,6 +221,7 @@
     <!-- Custom js for this page-->
     <script src="{{asset('admin/js/dashboard.js')}}"></script>
     <script src="{{asset('admin/js/Chart.roundedBarCharts.js')}}"></script>
+    <script src="{{asset('admin/vendors/summernote/summernote.min.js')}}"></script>
     <!-- End custom js for this page-->
     @yield('script')
 </body>

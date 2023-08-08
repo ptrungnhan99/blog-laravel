@@ -27,24 +27,16 @@
                             <div class="form-group">
                                 <label for="name">Tên</label>
                                 <input type="text" name="name" class="form-control">
-                                @if (count($errors) > 0)
-                                <small class="text-danger">
-                                    @foreach ($errors->get('name') as $message)
-                                        {{ $message }} <br>
-                                    @endforeach
-                                </small>
-                            @endif
+                                @error('name')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="slug">Đường dẫn</label>
                                 <input type="text" name="slug" class="form-control">
-                                @if (count($errors) > 0)
-                                <small class="text-danger">
-                                    @foreach ($errors->get('slug') as $message)
-                                        {{ $message }} <br>
-                                    @endforeach
-                                </small>
-                            @endif
+                                @error('slug')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="parent_id">Parent Category (optional):</label>
@@ -74,9 +66,9 @@
                                         <th>
                                             Dường dẫn
                                         </th>
-                                        <th>
+                                        {{-- <th>
                                             Hình ảnh thumbnail
-                                        </th>
+                                        </th> --}}
                                         <th>
                                             Chức năng
                                         </th>
@@ -91,10 +83,10 @@
                                         <td>
                                             {{$category->slug}}
                                         </td>
-                                        <td>
+                                        {{-- <td>
                                             <img width="100px" class="img-thumbnail"
                                             src="{{ asset('uploads/category/' . $category->thumbnail) }}" alt="">
-                                        </td>
+                                        </td> --}}
                                         <td class="d-flex">
                                             <a class="btn btn-primary btn-rounded btn-icon m-1" href="{{ route('categories.edit',$category->id) }}" style="line-height: 42px"> <i class="ti-pencil-alt"></i></a>
                                             <form method="post" action="{{route('categories.destroy', $category->id)}}">
@@ -115,10 +107,10 @@
                                             <td>
                                                 {{$child->slug}}
                                             </td>
-                                            <td>
+                                            {{-- <td>
                                                 <img width="100px" class="img-thumbnail"
                                                 src="{{ asset('uploads/category/' . $child->thumbnail) }}" alt="">
-                                            </td>
+                                            </td> --}}
                                             <td class="d-flex">
                                                 <a class="btn btn-primary btn-rounded btn-icon m-1" href="{{ route('categories.edit',$child->id) }}" style="line-height: 42px"> <i class="ti-pencil-alt"></i></a>
                                                 <form method="post" action="{{route('categories.destroy', $child->id)}}">
