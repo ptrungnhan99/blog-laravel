@@ -125,13 +125,15 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+        $default_category_id = Category::where('name', 'Chưa phân loại')->first()->id; // id category default
         $cat = Category::find($id);
-        if (count($cat->children) > 0) {
+        if ($cat->name === "Chưa phân loại")
+            return redirect()->back()->with('alert', 'This is category default!!');
+        if (count($cat->children) > 0)
             return redirect()->back()->with('alert', 'Please delete all sub category!!');
-        }
-        if (File::exists('uploads/category/' . $cat->thumbnail)) {
+        if (File::exists('uploads/category/' . $cat->thumbnail))
             File::delete('uploads/category/' . $cat->thumbnail);
-        }
+        $cat->posts()->update(['category_id' => $default_category_id]);
         $cat->delete();
         return redirect()->back()->with('success', 'Delete Success!!');
     }

@@ -25,7 +25,7 @@
 
 
 
-{!! Form::open(array('route' => 'users.store','method'=>'POST')) !!}
+{!! Form::open(array('route' => 'users.store','method'=>'POST', 'enctype'=>'multipart/form-data')) !!}
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
@@ -37,6 +37,13 @@
         <div class="form-group">
             <strong>Email:</strong>
             {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="form-group">
+            <label>Avatar</label>
+            <input type="file" name="avatar" class="dropify"
+                data-allowed-file-extensions="jpg png jpeg" data-max-file-size="2M">
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -62,6 +69,23 @@
     </div>
 </div>
 {!! Form::close() !!}
-
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $('.dropify').dropify({
+                messages: {
+                    'default': 'Drag and drop a file here or click',
+                    'replace': 'Drag and drop or click to replace',
+                    'remove': 'Remove',
+                    'error': 'Ooops, something wrong happended.'
+                },
+                error: {
+                    'fileSize': 'The file size is too big > 2M.',
+                    'imageFormat': 'The image format is not allowed only jpg png jpeg.'
+                }
+            });
+        });
+    </script>
+@endsection
 @endsection
 

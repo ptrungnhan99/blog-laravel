@@ -76,6 +76,17 @@ h5 {
 .second-slot {
     float: left;
     width: 25%;
+    height: 635px;
+}
+
+.last-slot .masonry-box, .second-slot .masonry-box{
+    height: 100%;
+}
+
+.last-slot .masonry-box img , .second-slot .masonry-box img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }
 
 .first-slot .blog-meta h4 {

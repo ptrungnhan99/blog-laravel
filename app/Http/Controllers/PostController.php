@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class PostController extends Controller
 {
@@ -16,7 +17,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('admin.posts.index');
+        $posts = Post::with('category')->latest()->paginate(8);
+        return view('admin.posts.index', [
+            'posts' => $posts
+        ]);
     }
 
     /**
@@ -89,6 +93,12 @@ class PostController extends Controller
      */
     public function edit($id)
     {
+        $post = Post::find($id);
+        $categories = Category::pluck('name', 'id');
+        return view('admin.posts.edit',  [
+            'categories' => $categories,
+            'post' => $post
+        ]);
     }
 
     /**
@@ -100,6 +110,34 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'slug' => 'required|string|max:255',
+            'description' => 'required|max:300',
+            'category_id' => 'required|numeric',
+            'content' => 'required',
+        ]);
+
+        $data = $request->only(['title', 'slug', 'description', 'content', 'category_id']);
+        $post = Post::find($id);
+        if ($request->hasFile('thumbnail')) {
+            if (File::exists('uploads/post/' . $post->thumbnail)) {
+                File::delete('uploads/post/' . $post->thumbnail);
+            }
+            $file = $request->file('thumbnail');
+            if ($file->isValid()) {
+                $nameThumbnail = $file->getClientOriginalName();
+                $file->move('uploads/post', $nameThumbnail);
+            }
+        } else {
+            $nameThumbnail = $post->thumbnail;
+        }
+        $data['thumbnail'] = $nameThumbnail;
+        $data['highlight'] = isset($request->highlight) ? true : false;
+        $data['approved'] = isset($request->approved) ? true : false;
+        $data['user_id'] =  Auth::id();
+        $post->update($data);
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -110,6 +148,10 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
+        // dd($id);
+        $post = Post::find($id);
+        $post->delete();
+        return redirect()->back()->with('success', 'Delete Success!!');
     }
 
     // Hàm tạo slug tự động

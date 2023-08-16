@@ -22,6 +22,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- endinject -->
     <link rel="shortcut icon" href="{{asset('admin/images/favicon.png')}}" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body class="admin-dashboard">
@@ -87,10 +88,14 @@
                     </li>
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                            <img src="{{asset('admin/images/faces/face28.jpg')}}" alt="profile" />
+                            @if(Auth::user()->avatar)
+                            <img src="{{asset('uploads/user/'. Auth::user()->avatar)}}" alt="profile" />
+                            @else
+                            <img src="{{asset('uploads/user/avatar-default.jpg')}}" alt="profile" />
+                            @endif
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                            <a class="dropdown-item">
+                            <a class="dropdown-item" href="{{ route('users.edit', Auth::user()->id) }}">
                                 <i class="ti-settings text-primary"></i>
                                 Settings
                             </a>
@@ -222,6 +227,7 @@
     <script src="{{asset('admin/js/dashboard.js')}}"></script>
     <script src="{{asset('admin/js/Chart.roundedBarCharts.js')}}"></script>
     <script src="{{asset('admin/vendors/summernote/summernote.min.js')}}"></script>
+    <script src="{{asset('admin/js/sortable.js')}}"></script>
     <!-- End custom js for this page-->
     @yield('script')
 </body>

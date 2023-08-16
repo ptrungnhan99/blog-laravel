@@ -8,6 +8,7 @@ use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
@@ -56,9 +57,18 @@ class UserController extends Controller
             'roles' => 'required'
         ]);
 
-        $input = $request->all();
+        // $input = $request->all();
+        $input = $request->only(['name', 'email', 'password', 'confirm-password']);
         $input['password'] = Hash::make($input['password']);
-
+        $avatar = "";
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            if ($file->isValid()) {
+                $avatar = $file->getClientOriginalName();
+                $file->move('uploads/user', $avatar);
+            }
+        }
+        $input['avatar'] = $avatar;
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
 
@@ -109,7 +119,8 @@ class UserController extends Controller
             'roles' => 'required'
         ]);
 
-        $input = $request->all();
+        // $input = $request->all();
+        $input = $request->only(['name', 'email', 'password', 'confirm-password']);
         if (!empty($input['password'])) {
             $input['password'] = Hash::make($input['password']);
         } else {
@@ -117,6 +128,18 @@ class UserController extends Controller
         }
 
         $user = User::find($id);
+        $avatar = $user->avatar;
+        if ($request->hasFile('avatar')) {
+            if (File::exists('uploads/user/' . $user->avatar)) {
+                File::delete('uploads/user/' . $user->avatar);
+            }
+            $file = $request->file('avatar');
+            if ($file->isValid()) {
+                $avatar = $file->getClientOriginalName();
+                $file->move('uploads/user', $avatar);
+            }
+        }
+        $input['avatar'] = $avatar;
         $user->update($input);
         DB::table('model_has_roles')->where('model_id', $id)->delete();
 
@@ -134,7 +157,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        User::find($id)->delete();
+        $user = User::find($id);
+        if (File::exists('uploads/user/' . $user->avatar))
+            File::delete('uploads/user/' . $user->avatar);
+        $user->delete();
         return redirect()->route('users.index')
             ->with('success', 'User deleted successfully');
     }
