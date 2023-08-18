@@ -53,7 +53,7 @@ class PostController extends Controller
             'content' => 'required',
         ]);
 
-        $data = $request->only(['title', 'slug', 'description', 'content', 'category_id']);
+        $data = $request->only(['title', 'slug', 'description', 'content', 'category_id', 'seo_title', 'seo_canonical', 'seo_keyword', 'seo_desc', 'post_type', 'meta_robot']);
         $nameThumbnail = '';
 
         if ($request->hasFile('thumbnail')) {
@@ -118,7 +118,7 @@ class PostController extends Controller
             'content' => 'required',
         ]);
 
-        $data = $request->only(['title', 'slug', 'description', 'content', 'category_id']);
+        $data = $request->only(['title', 'slug', 'description', 'content', 'category_id', 'seo_title', 'seo_canonical', 'seo_keyword', 'seo_desc', 'post_type', 'meta_robot']);
         $post = Post::find($id);
         if ($request->hasFile('thumbnail')) {
             if (File::exists('uploads/post/' . $post->thumbnail)) {

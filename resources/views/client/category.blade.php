@@ -75,7 +75,7 @@
                         <div class="blog-list-widget">
                             <div class="list-group">
                                 @foreach($popular_posts as $post)
-                                <a href="tech-single.html" class="list-group-item list-group-item-action flex-column align-items-start">
+                                <a href="{{route('single.post', $post->slug)}}" class="list-group-item list-group-item-action flex-column align-items-start">
                                     <div class="w-100 justify-content-between">
                                         <img src="{{asset('uploads/post/'.$post->thumbnail)}}" alt="" class="img-fluid float-left">
                                         <h5 class="mb-1">{{$post->title}}</h5>

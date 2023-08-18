@@ -19,7 +19,13 @@ class Post extends Model
         'category_id',
         'slug',
         'approved',
-        'highlight'
+        'highlight',
+        'seo_title',
+        'seo_canonical',
+        'seo_keyword',
+        'seo_desc',
+        'post_type',
+        'meta_robot'
     ];
     public function author()
     {

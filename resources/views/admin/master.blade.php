@@ -182,7 +182,7 @@
                     </li>
                     @endrole
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{url('/')}}">
                             <i class="ti-location-arrow menu-icon"></i>
                             <span class="menu-title">Trang chủ</span>
                         </a>
